@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Find The Player</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background: #0b1118;
+  color: #f4f7fa;
+  min-height: 100vh;
+}
+
+header {
+  padding: 22px 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #202b35;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: 1px;
+}
+
+.logo span {
+  color: #c7df68;
+}
+
+.badge {
+  font-size: 12px;
+  color: #9aa8b5;
+}
+
+.hero {
+  text-align: center;
+  padding: 90px 20px 45px;
+}
+
+.hero h1 {
+  font-size: clamp(42px, 9vw, 82px);
+  line-height: 0.95;
+  margin-bottom: 22px;
+}
+
+.hero h1 span {
+  color: #c7df68;
+}
+
+.hero p {
+  max-width: 600px;
+  margin: auto;
+  color: #9aa8b5;
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+.search-box {
+  width: min(720px, 90%);
+  margin: 45px auto;
+  padding: 10px;
+  background: #151e27;
+  border: 1px solid #2a3743;
+  border-radius: 18px;
+  display: flex;
+  gap: 10px;
+}
+
+.search-box input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: white;
+  padding: 17px;
+  font-size: 16px;
+}
+
+.search-box button {
+  border: 0;
+  background: #c7df68;
+  color: #101820;
+  font-weight: 900;
+  padding: 0 25px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.search-box button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+}
+
+.status {
+  text-align: center;
+  color: #9aa8b5;
+  min-height: 25px;
+}
+
+.result {
+  width: min(720px, 90%);
+  margin: 25px auto 80px;
+  background: #151e27;
+  border: 1px solid #2a3743;
+  border-radius: 24px;
+  padding: 28px;
+  display: none;
+  animation: appear 0.4s ease;
+}
+
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.profile {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.avatar {
+  width: 105px;
+  height: 105px;
+  border-radius: 22px;
+  object-fit: cover;
+  background: #202b35;
+}
+
+.profile-info {
+  flex: 1;
+}
+
+.profile-info small {
+  color: #7f8d99;
+}
+
+.profile-info h2 {
+  margin: 5px 0;
+  font-size: 28px;
+}
+
+.username {
+  color: #aebbc5;
+}
+
+.profile button {
+  margin-top: 18px;
+  padding: 13px 20px;
+  border: 0;
+  border-radius: 10px;
+  background: #c7df68;
+  color: #101820;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.features {
+  width: min(1000px, 90%);
+  margin: 0 auto 90px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.card {
+  background: #121a22;
+  border: 1px solid #202d38;
+  padding: 25px;
+  border-radius: 18px;
+  transition: 0.25s;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  border-color: #c7df68;
+}
+
+.card h3 {
+  margin-bottom: 10px;
+}
+
+.card p {
+  color: #8e9ca8;
+  line-height: 1.5;
+  font-size: 14px;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  border-top: 1px solid #202b35;
+  color: #697783;
+  font-size: 13px;
+}
+
+@media (max-width: 650px) {
+  header {
+    padding: 18px 5%;
+  }
+
+  .hero {
+    padding-top: 65px;
+  }
+
+  .search-box {
+    flex-direction: column;
+    background: transparent;
+    border: 0;
+    padding: 0;
+  }
+
+  .search-box input {
+    background: #151e27;
+    border: 1px solid #2a3743;
+    border-radius: 13px;
+  }
+
+  .search-box button {
+    min-height: 52px;
+  }
+
+  .profile {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .features {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">FIND <span>THE PLAYER</span></div>
+  <div class="badge">ROBLOX PLAYER FINDER</div>
+</header>
+
+<section class="hero">
+  <h1>Find the <span>player.</span></h1>
+
+  <p>
+    Enter a Roblox username and find the public player profile.
+    Simple, fast and clean.
+  </p>
+
+  <div class="search-box">
+    <input
+      id="username"
+      type="text"
+      maxlength="20"
+      placeholder="Enter Roblox username..."
+      autocomplete="off"
+    >
+
+    <button onclick="findPlayer()">SEARCH</button>
+  </div>
+
+  <div class="status" id="status"></div>
+</section>
+
+<section class="result" id="result">
+
+  <div class="profile">
+
+    <img
+      id="avatar"
+      class="avatar"
+      src=""
+      alt="Player Avatar"
+    >
+
+    <div class="profile-info">
+      <small>DISPLAY NAME</small>
+      <h2 id="displayName">Player</h2>
+
+      <div class="username" id="playerUsername">
+        @username
+      </div>
+
+      <button onclick="viewProfile()">
+        VIEW PROFILE
+      </button>
+    </div>
+
+  </div>
+
+</section>
+
+<section class="features">
+
+  <div class="card">
+    <h3>🔎 Search</h3>
+    <p>
+      Enter a Roblox username to look for a public player profile.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>👤 Player Card</h3>
+    <p>
+      See the player's avatar, display name and username.
+    </p>
+  </div>
+
+  <div class="card">
+    <h3>↗ Profile</h3>
+    <p>
+      Open the player's public Roblox profile directly.
+    </p>
+  </div>
+
+</section>
+
+<footer>
+  Find The Player • Roblox username search
+</footer>
+
+<script>
+let currentUser = null;
+
+async function findPlayer() {
+
+  const input = document.getElementById("username");
+  const status = document.getElementById("status");
+  const result = document.getElementById("result");
+
+  const username = input.value.trim();
+
+  result.style.display = "none";
+
+  if (!username) {
+    status.textContent = "Please enter a Roblox username.";
+    return;
+  }
+
+  status.textContent = "Searching...";
+
+  try {
+
+    const response = await fetch(
+      "https://users.roblox.com/v1/usernames/users",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          usernames: [username],
+          excludeBannedUsers: false
+        })
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error("Search failed");
+    }
+
+    const data = await response.json();
+
+    if (!data.data || data.data.length === 0) {
+      status.textContent = "Player not found.";
+      return;
+    }
+
+    const player = data.data[0];
+
+    currentUser = player;
+
+    document.getElementById("displayName").textContent =
+      player.displayName || player.name;
+
+    document.getElementById("playerUsername").textContent =
+      "@" + player.name;
+
+    document.getElementById("avatar").src =
+      "https://www.roblox.com/headshot-thumbnail/image?userId="
+      + player.id
+      + "&width=420&height=420&format=png";
+
+    result.style.display = "block";
+
+    status.textContent = "";
+
+  } catch (error) {
+
+    console.error(error);
+
+    status.textContent =
+      "The search could not connect right now. Please try again.";
+
+  }
+}
+
+function viewProfile() {
+
+  if (!currentUser) return;
+
+  window.open(
+    "https://www.roblox.com/users/"
+    + currentUser.id
+    + "/profile",
+    "_blank"
+  );
+}
+
+document.getElementById("username").addEventListener(
+  "keydown",
+  function(event) {
+
+    if (event.key === "Enter") {
+      findPlayer();
+    }
+
+  }
+);
+</script>
+
+</body>
+  </html>
